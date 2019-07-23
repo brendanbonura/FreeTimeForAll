@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>403 Error</title>
+</head>
+
+<body>
+	<h1>Access Denied</h1>
+	<p>Oops. Looks like you tried to access a page that you aren't authorized for.</p>
+	<a th:href="@{/home}">Home</a><br/>
+	<form th:if="${#request.userPrincipal != null}" th:action="@{/logout}" method="POST" id="logoutForm">
+		<input type="submit" name="logout" value="logout"/>
+	</form>
+</body>
+</html>

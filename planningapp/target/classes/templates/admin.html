@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Admin</title>
+</head>
+
+<body>
+	<h1>Admin</h1>
+	<form th:if="${#request.userPrincipal != null}" th:action="@{/logout}" method="POST" id="logoutForm">
+		<input type="submit" name="logout" value="logout"/>
+	</form>
+</body>
+</html>
