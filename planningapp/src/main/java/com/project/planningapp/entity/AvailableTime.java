@@ -22,7 +22,7 @@ public class AvailableTime {
 	// Table fields
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "availableTimes_id")
 	private Long id;
 	

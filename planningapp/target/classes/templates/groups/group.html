@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:text="*{group.name}"></title>
+</head>
+	<h1 th:text="*{group.name}"></h1>
+	<p th:text="*{group.description}"></p>
+	<h3>Members:</h3>
+	<ul>
+		<li th:each="user: ${group.users}" 
+			th:text="*{user.getFirstName() + ' ' + user.getLastName()}">
+		</li>
+	</ul>
+</html>

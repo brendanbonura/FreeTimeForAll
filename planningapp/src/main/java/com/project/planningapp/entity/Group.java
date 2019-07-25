@@ -15,23 +15,27 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "planningapp_db.groups")
 public class Group {
 	
 	// Table fields
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "group_id")
 	private Long id;
 	
 	@Column(name = "group_name")
-	@NotEmpty(message = "* Must provide a group name")
+	@NotNull(message = "Group name is required")
+	@Size(min = 1, max = 254)
 	private String name;
 	
 	@Column(name = "group_description")
+	@Size(min = 1, max = 254)
 	private String description;
 	
 	@ManyToMany(fetch = FetchType.LAZY,
@@ -82,6 +86,14 @@ public class Group {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 	
 	// tostring

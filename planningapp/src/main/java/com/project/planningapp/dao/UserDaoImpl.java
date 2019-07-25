@@ -1,6 +1,8 @@
 package com.project.planningapp.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.project.planningapp.entity.Role;
 import com.project.planningapp.entity.User;
 
 @Repository
@@ -54,6 +57,19 @@ public class UserDaoImpl implements UserDao {
 		} catch (Exception e) {
 			user = null;
 		}
+		return user;
+	}
+	
+	@Override
+	public User addRoleToUser(User user, Role role) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Set<Role> roles = user.getRoles();
+		if(roles == null) {
+			roles = new HashSet<Role>();
+		}
+		roles.add(role);
+		user.setRoles(roles);
+		currentSession.saveOrUpdate(user);
 		return user;
 	}
 

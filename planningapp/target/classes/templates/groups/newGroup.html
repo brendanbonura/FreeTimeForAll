@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>New Group</title>
+</head>
+
+<body>
+	<h1>New Group</h1>
+	
+	<form name='newGroup' th:action="@{/groups/processNewGroupForm}" method="POST">
+		<table>
+			<tr>
+				<td>Group Name:</td>
+				<td><input type="text" name="name" th:value="*{group.name}"/></td>
+
+			</tr>
+			<tr>
+				<td>Group Description:</td>
+				<td><input type="text" name="description" th:value="*{group.description}"/></td>
+			</tr>
+
+			<tr>
+				<td><input type="submit" name="submit" value="submit"/></td>
+			</tr>
+		</table>
+	</form>
+	
+	<div th:if="${bindingResultErrors != null}">
+		<table>
+			<tr th:each="error: ${bindingResultErrors}">
+				<td th:text="${error.defaultMessage}"/>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

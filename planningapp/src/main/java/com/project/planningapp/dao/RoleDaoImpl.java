@@ -8,6 +8,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.planningapp.entity.Role;
+
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
@@ -23,6 +25,16 @@ public class RoleDaoImpl implements RoleDao {
 		theQuery.setParameter("userId", userId);
 		List<String> roles = theQuery.getResultList();
 		return roles;
+	}
+
+	@Override
+	public Role getRoleById(Long id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Role> theQuery = currentSession.createQuery(
+				"from Role where id=:roleId", Role.class);
+		theQuery.setParameter("roleId", id);
+		Role role = theQuery.getSingleResult();
+		return role;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.planningapp.dao.UserDao;
+import com.project.planningapp.entity.Role;
 import com.project.planningapp.entity.User;
 
 @Service
@@ -38,6 +39,12 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public User getUserByEmail(String email) {
 		return userDao.getUserByEmail(email);
+	}
+	
+	@Override
+	@Transactional
+	public User addRoleToUser(User user, Role role) {
+		return userDao.addRoleToUser(user, role);
 	}
 
 	@Override

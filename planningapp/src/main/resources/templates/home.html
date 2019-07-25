@@ -6,6 +6,18 @@
 
 <body>
 	<h1>Home</h1>
+	
+	<h2>Groups:</h2>
+	<table>
+		<tr th:each="group: ${groups}">
+			<td>
+				<a th:href="${'/groups/?groupId=' + group.id}" th:text="${group.name}"></a>
+			<td>
+		</tr>
+	</table><br/>
+	
+	<a th:href="@{/groups/newGroup}">New Group</a><br/>
+	
 	<form th:if="${#request.userPrincipal != null}" th:action="@{/logout}" method="POST" id="logoutForm">
 		<input type="submit" name="logout" value="logout"/>
 	</form>

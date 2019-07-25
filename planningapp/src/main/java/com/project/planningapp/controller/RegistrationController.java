@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.project.planningapp.entity.Role;
 import com.project.planningapp.entity.User;
+import com.project.planningapp.service.RoleService;
 import com.project.planningapp.service.UserService;
 
 @Controller
@@ -23,6 +25,9 @@ public class RegistrationController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	// used to trim empty strings to null
 	@InitBinder
@@ -45,10 +50,7 @@ public class RegistrationController {
 			Model model,
 			@ModelAttribute("confirmPassword") String confirmPassword) {
 		
-		System.out.println(user.getPassword());
-		System.out.println(confirmPassword);
-		
-		// form validation
+		// form validation via entity annotations
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("bindingResultErrors", bindingResult.getAllErrors());
 			model.addAttribute("User", user);
@@ -70,6 +72,10 @@ public class RegistrationController {
 			model.addAttribute("registrationError", "The Password and Confirm Password fields do not match");
 			return "register";
 		}
+		
+		// add basic role to user upon user creation
+		Role role = roleService.getRoleById((long) 1);
+		userService.addRoleToUser(user, role);
 		
 		userService.saveUser(user);
 		model.addAttribute("registrationConfirmation",
