@@ -8,10 +8,16 @@ Simply import the project into your IDE as a Maven project. Since this project i
 
 ## Built With
 
+<<<<<<< HEAD
 [Spring](https://spring.io/) - Specifically Spring Boot
 [Maven](https://maven.apache.org/) - Project management
 [Hibernate](http://hibernate.org/) - Database tools
 [Thymeleaf](https://www.thymeleaf.org/) - Java templating tool
+=======
+[Spring](https://spring.io/) - Specifically Spring Boot  
+[Maven](https://maven.apache.org/) - Project management  
+[Thymeleaf](https://www.thymeleaf.org/) - Java templating tool  
+>>>>>>> 1a5f5bb29919d1c9ac054090035740f7975e9901
 
 ## Authors
 
