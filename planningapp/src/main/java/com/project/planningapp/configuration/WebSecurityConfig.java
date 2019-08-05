@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// pages accessable by anyone
 		http.authorizeRequests().antMatchers("/","/login","/logout","/register").permitAll();
 		
-		http.authorizeRequests().antMatchers("/home/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");		
+		http.authorizeRequests().antMatchers("/home/**", "/groups/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");		
 		
 		// admin page
 		http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
@@ -80,10 +80,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and().logout()
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/logoutSuccessful");
+				
 			
 		// remember me
 		http.authorizeRequests().and()
-			.rememberMe().tokenRepository(this.persistentTokenRepository());
+			.rememberMe().tokenRepository(this.persistentTokenRepository())
+			.key("remember-me")
+			.rememberMeParameter("remember-me")
+			.rememberMeCookieName("remember-me")
+			.tokenValiditySeconds(86400);
 	}
 
 }

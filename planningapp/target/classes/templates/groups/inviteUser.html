@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Invite User</title>
+</head>
+
+<body>
+	<div>
+		<h1 th:text="'Invite user to ' + ${group.getName()}"></h1>
+	</div>
+	<form name='inviteUser' th:action="@{/groups/processInviteUserForm/?groupId=} + ${group.getId()} " method="POST">
+		<table>
+			<tr>
+				<td>User Email:</td>
+				<td><input type="email" name="email" th:value="*{email}"/></td>
+			</tr>
+
+			<tr>
+				<td><input type="submit" name="submit" value="submit"/></td>
+			</tr>
+		</table>
+	</form>
+	
+	<div th:if="${inviteError != null}">
+		<p th:text="${inviteError}"></p>
+	</div>
+</body>
+</html>

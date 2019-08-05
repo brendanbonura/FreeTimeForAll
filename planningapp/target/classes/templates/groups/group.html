@@ -10,5 +10,6 @@
 		<li th:each="user: ${group.users}" 
 			th:text="*{user.getFirstName() + ' ' + user.getLastName()}">
 		</li>
-	</ul>
+	</ul><br>
+	<a th:href="${'/groups/inviteUser/?groupId=' + group.id}">Invite User</a>
 </html>
