@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>New Available Time</title>
+</head>
+
+<body>
+	<h1>New Available Time</h1>
+	
+	<form name='newAvailableTime' th:action="${'/groups/processNewAvailableTimeForm/?groupId=' + group.id}" method="POST">
+		<table>
+			<tr>
+				<td>Date:</td>
+				<td><input type="date" name="date" th:value="*{availableTime.date}"/></td>
+
+			</tr>
+			<tr>
+				<td>Start Time:</td>
+				<td><input type="time" name="startTime" th:value="*{availableTime.startTime}"/></td>
+			</tr>
+			<tr>
+				<td>End Time:</td>
+				<td><input type="time" name="endTime" th:value="*{availableTime.endTime}"/></td>
+			</tr>
+			<tr>
+				<td><input type="submit" name="submit" value="submit"/></td>
+			</tr>
+		</table>
+	</form>
+	
+	<div th:if="${bindingResultErrors != null}">
+		<table>
+			<tr th:each="error: ${bindingResultErrors}">
+				<td th:text="${error.defaultMessage}"/>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

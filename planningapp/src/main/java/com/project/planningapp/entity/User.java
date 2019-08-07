@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -67,6 +68,9 @@ public class User {
 			inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set<Role> roles;
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<AvailableTime> availableTimes;
+	
 	// Constructors
 	
 	public User() {
@@ -78,13 +82,15 @@ public class User {
 			String lastName, 
 			String password,
 			Set<Group> groups,
-			Set<Role> roles) {
+			Set<Role> roles,
+			Set<AvailableTime> availableTimes) {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
 		this.groups = groups;
 		this.roles = roles;
+		this.availableTimes = availableTimes;
 	}
 
 	// Getters and Setters
@@ -145,12 +151,19 @@ public class User {
 		this.roles = roles;
 	}
 	
-	// tostring
+	public Set<AvailableTime> getAvailableTimes() {
+		return availableTimes;
+	}
+
+	public void setAvailableTimes(Set<AvailableTime> availableTimes) {
+		this.availableTimes = availableTimes;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", password=" + password + ", groups=" + groups + ", roles=" + roles + "]";
+				+ ", password=" + password + ", groups=" + groups + ", roles=" + roles + ", availableTimes="
+				+ availableTimes + "]";
 	}
-
 	
 }

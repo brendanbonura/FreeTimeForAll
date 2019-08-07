@@ -1,5 +1,8 @@
 package com.project.planningapp.entity;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -27,19 +30,16 @@ public class AvailableTime {
 	private Long id;
 	
 	@Column(name = "availableTimes_date")
-	@NotEmpty(message = "* Please provide a valid date")
-	@Future(message = "* Please provide a date that has not passed")
-	private String date;
+	@NotNull(message = "* Please provide a valid date")
+	private LocalDate date;
 	
 	@Column(name = "availableTimes_startTime")
-	@NotEmpty(message = "* Please provide a valid start time")
-	@Future(message = "* Please provide a start time that has not passed")
-	private String startTime;
+	@NotNull(message = "* Please provide a valid start time")
+	private LocalTime startTime;
 	
 	@Column(name = "availableTimes_endTime")
-	@NotEmpty(message = "*Please provide a valid end time")
-	@Future(message = "* Please provide an end time that has not passed")
-	private String endTime;
+	@NotNull(message = "*Please provide a valid end time")
+	private LocalTime endTime;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name="user_id", nullable = false)
@@ -58,16 +58,11 @@ public class AvailableTime {
 	}
 	
 	public AvailableTime(
-			@NotEmpty(message = "* Please provide a valid date") 
-			@Future(message = "* Please provide a date that has not passed") 
-				String date,
-			@NotEmpty(message = "* Please provide a valid start time") 
-			@Future(message = "* Please provide a start time that has not passed") 
-				String startTime,
-			@NotEmpty(message = "*Please provide a valid end time") 
-			@Future(message = "* Please provide an end time that has not passed") 
-				String endTime,
-			User user, Group group) {
+			@NotEmpty(message = "* Please provide a valid date") LocalDate date,
+			@NotEmpty(message = "* Please provide a valid start time") LocalTime startTime,
+			@NotEmpty(message = "*Please provide a valid end time") LocalTime endTime,
+			User user, 
+			Group group) {
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -85,27 +80,27 @@ public class AvailableTime {
 		this.id = id;
 	}
 
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public String getStartTime() {
+	public LocalTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public LocalTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 
@@ -125,11 +120,11 @@ public class AvailableTime {
 		this.group = group;
 	}
 
-	// tostring
 	@Override
 	public String toString() {
 		return "AvailableTime [id=" + id + ", date=" + date + ", startTime=" + startTime + ", endTime=" + endTime
 				+ ", user=" + user + ", group=" + group + "]";
 	}
+
 
 }

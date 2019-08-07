@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title th:text="*{group.name}"></title>
+	<link rel="stylesheet" href="../static/css/groupPageStyle.css" th:href="@{/css/groupPageStyle.css}">
 </head>
 	<h1 th:text="*{group.name}"></h1>
 	<p th:text="*{group.description}"></p>
@@ -11,5 +12,22 @@
 			th:text="*{user.getFirstName() + ' ' + user.getLastName()}">
 		</li>
 	</ul><br>
-	<a th:href="${'/groups/inviteUser/?groupId=' + group.id}">Invite User</a>
+	<div th:if="${!group.getAvailableTimes().isEmpty()}">
+		<h2>Available Times:</h2>
+		<table>
+			<tr>
+				<th>Date</th>
+				<th>Users and Times</th>
+			</tr>
+			<tr th:each="date : ${availableTimesByDate.keySet()}">
+				<td th:text = "${date}"></td>
+				<td th:each="availableTime : ${availableTimesByDate.get(date)}"
+					th:utext="${availableTime.getUser().getFirstName() + ' ' + availableTime.getUser().getFirstName() + '<br/>' +
+					availableTime.getStartTime() + ' - ' + availableTime.getEndTime()}">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<a th:href="${'/groups/newAvailableTime/?groupId=' + group.id}">Add Available Time</a><br>
+	<a th:href="${'/groups/inviteUser/?groupId=' + group.id}">Invite User</a><br>
 </html>

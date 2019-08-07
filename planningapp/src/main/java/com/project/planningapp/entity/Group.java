@@ -1,6 +1,5 @@
 package com.project.planningapp.entity;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -46,7 +46,10 @@ public class Group {
 	@JoinTable(name = "users_groups",
 	joinColumns = {@JoinColumn(name = "group_id")},
 	inverseJoinColumns = {@JoinColumn(name = "user_id")})
-	private Set<User> users = new HashSet<>();
+	private Set<User> users;
+	
+	@OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<AvailableTime> availableTimes;
 	
 	// Constructors
 	
@@ -96,8 +99,15 @@ public class Group {
 		this.users = users;
 	}
 	
-	// tostring
+	public Set<AvailableTime> getAvailableTimes() {
+		return availableTimes;
+	}
 
+	public void setAvailableTimes(Set<AvailableTime> availableTimes) {
+		this.availableTimes = availableTimes;
+	}
+	
+	// tostring
 	@Override
 	public String toString() {
 		return "Group [id=" + id + ", name=" + name + ", description=" + description + "]";

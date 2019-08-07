@@ -3,13 +3,12 @@ package com.project.planningapp.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.project.planningapp.entity.User;
 import com.project.planningapp.service.UserService;
 
 @Controller
@@ -37,10 +36,8 @@ public class MainController {
 	
 	@RequestMapping(value="/home", method = RequestMethod.GET)
 	public String userInfo(Model model, Principal principal) {
-		User loggedInUser = (User) ((Authentication)principal).getPrincipal();
-		com.project.planningapp.entity.User user = 
-				userService.getUserByEmail(loggedInUser.getUsername());
-		model.addAttribute("groups", user.getGroups());
+		User loggedInUser = userService.getUserByEmail(principal.getName());
+		model.addAttribute("groups", loggedInUser.getGroups());
 		return "home";
 	}
 	

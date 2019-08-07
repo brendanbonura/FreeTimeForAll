@@ -1,9 +1,9 @@
-package com.project.planningapp.dao;
+package com.project.planningapp.service;
 
 import com.project.planningapp.entity.AvailableTime;
 
-public interface AvailableTimeDao {
-	
+public interface AvailableTimeService {
+
 	public void saveAvailableTime(AvailableTime availableTime);
 	
 }
