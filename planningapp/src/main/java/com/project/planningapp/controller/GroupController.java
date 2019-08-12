@@ -5,9 +5,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.planningapp.entity.AvailableTime;
 import com.project.planningapp.entity.Group;
+import com.project.planningapp.entity.SharedTime;
 import com.project.planningapp.entity.User;
 import com.project.planningapp.service.AvailableTimeService;
 import com.project.planningapp.service.EmailService;
 import com.project.planningapp.service.GroupService;
+import com.project.planningapp.service.SharedTimeService;
 import com.project.planningapp.service.UserService;
 
 @Controller
@@ -48,6 +50,9 @@ public class GroupController {
 	@Autowired
 	private AvailableTimeService availableTimeService;
 	
+	@Autowired
+	private SharedTimeService sharedTimeService;
+	
 	// used to trim empty strings to null
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -63,9 +68,12 @@ public class GroupController {
 		Group group = groupService.getGroupById((long) groupId);
 		model.addAttribute("group", group);
 		
+		User loggedInUser = userService.getUserByEmail(principal.getName());
+		
 		// Maps all unique dates of AvailableTimes in group 
 		// to a set containing their corresponding AvailableTimes
-		Map<LocalDate, List<AvailableTime>> availableTimesByDate = new HashMap<>();
+		// Uses treemap to sort key set by date
+		Map<LocalDate, List<AvailableTime>> availableTimesByDate = new TreeMap<>();
 		for(AvailableTime availableTime : group.getAvailableTimes()) {
 			if(!availableTimesByDate.containsKey(availableTime.getDate())) {
 				availableTimesByDate.put(availableTime.getDate(), new ArrayList<AvailableTime>());
@@ -79,8 +87,16 @@ public class GroupController {
 		for(LocalDate date : availableTimesByDate.keySet()) {
 			Collections.sort(availableTimesByDate.get(date), byStartTimeComparator);
 		}
-		
 		model.addAttribute("availableTimesByDate", availableTimesByDate);
+		
+		List<SharedTime> sharedTimes  = new ArrayList<>();
+		
+		// iterate over next two weeks
+		if(!availableTimesByDate.isEmpty()) {
+			sharedTimes = sharedTimeService.findSharedTimes(loggedInUser, availableTimesByDate);
+		}
+		
+		model.addAttribute("sharedTimes", sharedTimes);
 		
 		return "groups/group";
 	}
@@ -174,7 +190,6 @@ public class GroupController {
 			Model model, 
 			Principal principal) {
 		User loggedInUser = userService.getUserByEmail(principal.getName());
-		
 		model.addAttribute("group", groupService.getGroupById((long) groupId));
 		model.addAttribute("loggedInUser", loggedInUser);
 		model.addAttribute("availableTime", new AvailableTime());
@@ -195,6 +210,7 @@ public class GroupController {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("bindingResultErrors", bindingResult.getAllErrors());
 			model.addAttribute("availaleTime", availableTime);
+			model.addAttribute("group", groupService.getGroupById((long) groupId));
 			return "groups/newAvailableTime";
 		}
 		
@@ -205,4 +221,5 @@ public class GroupController {
 		
 		return "redirect:/groups/?groupId=" + groupId;
 	}
+	
 }

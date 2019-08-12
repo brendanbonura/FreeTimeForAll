@@ -5,22 +5,22 @@
 </head>
 
 <body>
-	<h1>New Available Time</h1>
+	<h1 th:text="'Add available time to ' + ${group.getName()}"></h1>
 	
-	<form name='newAvailableTime' th:action="${'/groups/processNewAvailableTimeForm/?groupId=' + group.id}" method="POST">
+	<form name='newAvailableTime' th:action="@{/groups/processNewAvailableTimeForm/?groupId=} + ${group.getId()}" method="POST">
 		<table>
 			<tr>
 				<td>Date:</td>
-				<td><input type="date" name="date" th:value="*{availableTime.date}"/></td>
+				<td><input type="date" name="date" th:field="*{availableTime.date}" th:value="*{availableTime.date}"/></td>
 
 			</tr>
 			<tr>
 				<td>Start Time:</td>
-				<td><input type="time" name="startTime" th:value="*{availableTime.startTime}"/></td>
+				<td><input type="time" name="startTime" th:field="*{availableTime.startTime}"  th:value="*{availableTime.startTime}"/></td>
 			</tr>
 			<tr>
 				<td>End Time:</td>
-				<td><input type="time" name="endTime" th:value="*{availableTime.endTime}"/></td>
+				<td><input type="time" name="endTime" th:field="*{availableTime.endTime}" th:value="*{availableTime.endTime}"/></td>
 			</tr>
 			<tr>
 				<td><input type="submit" name="submit" value="submit"/></td>

@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "availabletimes")
@@ -31,14 +32,17 @@ public class AvailableTime {
 	
 	@Column(name = "availableTimes_date")
 	@NotNull(message = "* Please provide a valid date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
 	@Column(name = "availableTimes_startTime")
 	@NotNull(message = "* Please provide a valid start time")
+	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime startTime;
 	
 	@Column(name = "availableTimes_endTime")
 	@NotNull(message = "*Please provide a valid end time")
+	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime endTime;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
